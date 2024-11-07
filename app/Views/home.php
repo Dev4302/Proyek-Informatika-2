@@ -17,19 +17,21 @@
             <div class="mb-3">
                 <label for="sourceLanguage" class="form-label">Source Language</label>
                 <select class="form-select" id="sourceLanguage" name="sourceLanguage">
-                    <option value="en">English</option>
-                    <option value="id">Indonesian</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
+                    <?php foreach ($languages as $language): ?>
+                        <option value="<?= $language['name'] ?>">
+                            <?= is_array($language) && isset($language['name']) ? $language['name'] : strtoupper($language['language'] ?? '')?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="targetLanguage" class="form-label">Target Language</label>
                 <select class="form-select" id="targetLanguage" name="targetLanguage">
-                    <option value="id">Indonesian</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
+                    <?php foreach ($languages as $language): ?>
+                        <option value="<?= $language['name'] ?>">
+                            <?= is_array($language) && isset($language['name']) ? $language['name'] : strtoupper($language['language'] ?? '') ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="d-grid">
