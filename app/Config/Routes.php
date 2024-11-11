@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->post('/translate', 'Home::translate');
+$routes->get('/getLanguages', 'Home::getLanguages');

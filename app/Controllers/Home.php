@@ -17,34 +17,35 @@ class Home extends BaseController
             'target' => 'en'
         ]);
         
-        // Translate text from english to french.
-        $result = $translate->translate('Hello world!', [
-            'target' => 'fr'
-        ]);
-
         // isi dropdown menu pakai array berisi daftar bahasa yg bisa dipakai
         return view('home', ['languages' => $languages]);
     }
-    public function translate(): string
+    
+     public function translate(): string
     {
         $translate = new TranslateClient([
             'key' => getenv('GOOGLE_TRANSLATE_API_KEY')
         ]);
 
-        // ini buat ambil data post request
+        // ambil datanya
         $textToTranslate = $this->request->getPost('textToTranslate');
-        $sourceLanguage = $this->request->getPost('sourceLanguage');
-        $targetLanguage = $this->request->getPost('targetLanguage');
+        $sourceLanguageName = $this->request->getPost('sourceLanguage');
+        $targetLanguageName = $this->request->getPost('targetLanguage');
+
+        // ini recall untuk match kode dgn namanya, tapi masih ngaco karena dia matchnya masih salah
+        $languages = $translate->localizedLanguages(['target' => `sourceLanguageName`]);
 
         $result = $translate->translate($textToTranslate, [
-            'source' => $sourceLanguage,
-            'target' => $targetLanguage
+            'source' => $sourceLanguageName,
+            'target' => $targetLanguageName
         ]);
-
+        // recall untuk fill daftar bahasanya
         $languages = $translate->localizedLanguages(['target' => 'en']);
+
         return view('home', [
             'languages' => $languages,
             'translationResult' => $result['text']
         ]);
     }
+
 }
