@@ -25,4 +25,26 @@ class Home extends BaseController
         // isi dropdown menu pakai array berisi daftar bahasa yg bisa dipakai
         return view('home', ['languages' => $languages]);
     }
+    public function translate(): string
+    {
+        $translate = new TranslateClient([
+            'key' => getenv('GOOGLE_TRANSLATE_API_KEY')
+        ]);
+
+        // ini buat ambil data post request
+        $textToTranslate = $this->request->getPost('textToTranslate');
+        $sourceLanguage = $this->request->getPost('sourceLanguage');
+        $targetLanguage = $this->request->getPost('targetLanguage');
+
+        $result = $translate->translate($textToTranslate, [
+            'source' => $sourceLanguage,
+            'target' => $targetLanguage
+        ]);
+
+        $languages = $translate->localizedLanguages(['target' => 'en']);
+        return view('home', [
+            'languages' => $languages,
+            'translationResult' => $result['text']
+        ]);
+    }
 }
