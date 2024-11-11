@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Translator</title>
     <link rel="stylesheet" href="assets/style.css">
+    
 </head>
 <body>
     <div class="container mt-5">
@@ -48,3 +49,25 @@
     </div>
 </body>
 </html>
+<script>
+    // untuk update language secara dynamic pas teks ditulis pada textarea
+    function updateLang(){
+        fetch('<? base_url('getLanguages') ?>')
+        .then(response => response.json())
+        .then(data =>{
+            
+            let sourceLang = document.querySelector('#sourceLanguage');
+            sourceLang.innerHTML = '';
+            data.languages.forEach(language =>{
+                const dropdownListElem = document.createElement('option');
+                dropdownListElem.value = language.name;
+                dropdownListElem.textContent = language.name;
+
+                sourceLang.appendChild(dropdownListElem)
+            })
+        }).catch(error => console.log(error)); // catch handler kalo gagal isi datanya
+    }
+        
+    setInterval(updateLanguages, 300);
+    updateLanguages();// ini call pertama saat initialize
+</script>

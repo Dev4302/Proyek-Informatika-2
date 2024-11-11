@@ -6,6 +6,9 @@ use Google\Cloud\Translate\V2\TranslateClient;
 
 class Home extends BaseController
 {
+    // const translate =  new TranslateClient([
+    //     'key' => getenv('GOOGLE_TRANSLATE_API_KEY')
+    // ]);
     public function index(): string
     {
         $translate = new TranslateClient([
@@ -46,5 +49,16 @@ class Home extends BaseController
             'languages' => $languages,
             'translationResult' => $result['text']
         ]);
+    }
+    public function getLanguages()
+    {
+        // Create TranslateClient and fetch supported languages
+        $translate = new TranslateClient([
+            'key' => getenv('GOOGLE_TRANSLATE_API_KEY')
+        ]);
+
+        // Retrieve languages and send as JSON response
+        $languages = $translate->localizedLanguages(['target' => 'en']);
+        return $this->respond(['languages' => $languages]);
     }
 }
